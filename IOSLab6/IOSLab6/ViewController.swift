@@ -15,8 +15,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let userDefaults = UserDefaults.standard
 
     @IBOutlet weak var myTableView: UITableView!
+    
     @IBAction func AddButton(_ sender: Any) {
-        let alert = UIAlertController(title: "Add Item", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add Item", message: "Enter New Task", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.placeholder = "Write an Item"
         }
@@ -55,7 +56,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    //remove items
+    //remove item from storage
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             items.remove(at: indexPath.row)
@@ -69,12 +70,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return .delete
     }
     
-    //save Item
+    //save Item to storage
     func saveItems() {
          userDefaults.set(items, forKey: "SavedItems")
      }
-     
-     func getItemsFromStorage() {
+    
+    //get data from storage
+    func getItemsFromStorage() {
          if let savedItems = userDefaults.array(forKey: "SavedItems") as? [String] {
              items = savedItems
          } else {
