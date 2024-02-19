@@ -13,9 +13,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //Use to save data locally
     let userDefaults = UserDefaults.standard
-
-    @IBOutlet weak var myTableView: UITableView!
     
+    @IBOutlet weak var itemsTableView: UITableView!
+
     @IBAction func AddButton(_ sender: Any) {
         let alert = UIAlertController(title: "Add Item", message: "Enter New Task", preferredStyle: .alert)
         alert.addTextField { (textField) in
@@ -26,7 +26,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let newItem = textField?.text, !newItem.isEmpty {
                             self.items.append(newItem)
                             self.saveItems()
-                            self.myTableView.reloadData()
+                            self.itemsTableView.reloadData()
                         }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {[weak alert](_) in
@@ -38,8 +38,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       
     override func viewDidLoad() {
         super.viewDidLoad()
-        myTableView.dataSource = self
-        myTableView.delegate = self
+        itemsTableView.dataSource = self
+        itemsTableView.delegate = self
         getItemsFromStorage()
     }
 
@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if editingStyle == .delete {
             items.remove(at: indexPath.row)
             saveItems()
-            myTableView.deleteRows(at: [indexPath], with: .automatic)
+            itemsTableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 
@@ -80,6 +80,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
          if let savedItems = userDefaults.array(forKey: "SavedItems") as? [String] {
              items = savedItems
          } else {
+             
+             //default ToDo Task
              items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8"]
          }
      }
